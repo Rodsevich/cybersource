@@ -7,4 +7,4 @@
 /build
 /captures
 .cxx
-/.dart_tool
+.dart_tool/
