@@ -55,3 +55,9 @@ android {
         }
     }
 }
+
+dependencies {
+    implementation files('libs/TMXBehavioralBiometrics-RL-6.3-77.aar')
+    implementation files('libs/TMXProfiling-RL-6.3-77.aar')
+    implementation files('libs/TMXProfilingConnections-RL-6.3-77.aar')
+}
