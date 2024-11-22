@@ -17,4 +17,15 @@ class CybersourceIOS extends CybersourcePlatform {
   Future<String?> getPlatformName() {
     return methodChannel.invokeMethod<String>('getPlatformName');
   }
+
+  @override
+  Future<String?> getSessionId(
+    String orderId,
+    String orgId,
+    String fingerprintServerUrl,
+    String merchantId,
+  ) {
+    // TODO: implement getSessionId
+    throw UnimplementedError();
+  }
 }

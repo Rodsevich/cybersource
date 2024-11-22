@@ -30,4 +30,14 @@ abstract class CybersourcePlatform extends PlatformInterface {
 
   /// Return the current platform name.
   Future<String?> getPlatformName();
+
+  /// Return the Cybersource session id.
+  Future<String?> getSessionId(
+    String orderId,
+    String orgId,
+    String fingerprintServerUrl,
+    String merchantId,
+  );
+
+// Add your platform-specific methods here
 }
