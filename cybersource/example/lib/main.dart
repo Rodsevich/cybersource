@@ -43,7 +43,19 @@ class _HomePageState extends State<HomePage> {
                 if (!context.mounted) return;
                 try {
                   final result = await getPlatformName();
-                  setState(() => _platformName = result);
+                  final sessionID = await getSessionId(
+                    // Add your order ID here
+                    orderId: '<ADD_YOUR_ORDER_ID>',
+
+                    // Add your organization ID here
+                    orgId: '<ADD_YOUR_ORG_ID>',
+
+                    // Add your fingerprint server URL here
+                    fingerprintServerUrl: '<ADD_YOUR_FINGERPRINT_SERVER_URL>',
+                    // Add your merchant ID here
+                    merchantId: '<ADD_YOUR_MERCHANT_ID>',
+                  );
+                  setState(() => _platformName = sessionID);
                 } catch (error) {
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
