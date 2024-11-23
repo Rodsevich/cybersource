@@ -2,3 +2,5 @@
 .cxx
 cybersource_android/.dart_tool/
 .idea/
+pubspec.lock
+build/

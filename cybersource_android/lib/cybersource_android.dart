@@ -14,11 +14,6 @@ class CybersourceAndroid extends CybersourcePlatform {
   }
 
   @override
-  Future<String?> getPlatformName() {
-    return methodChannel.invokeMethod<String>('getPlatformName');
-  }
-
-  @override
   Future<String?> getSessionId(
     String orderId,
     String orgId,

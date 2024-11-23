@@ -7,7 +7,7 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   group('CybersourceIOS', () {
-    const kPlatformName = 'iOS';
+    const kSessionId = 'MockSessionId';
     late CybersourceIOS cybersource;
     late List<MethodCall> log;
 
@@ -16,11 +16,12 @@ void main() {
 
       log = <MethodCall>[];
       TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
-          .setMockMethodCallHandler(cybersource.methodChannel, (methodCall) async {
+          .setMockMethodCallHandler(cybersource.methodChannel,
+              (methodCall) async {
         log.add(methodCall);
         switch (methodCall.method) {
-          case 'getPlatformName':
-            return kPlatformName;
+          case 'getSessionId':
+            return kSessionId;
           default:
             return null;
         }
@@ -32,13 +33,28 @@ void main() {
       expect(CybersourcePlatform.instance, isA<CybersourceIOS>());
     });
 
-    test('getPlatformName returns correct name', () async {
-      final name = await cybersource.getPlatformName();
+    test('getSessionId returns correct sessionId', () async {
+      final name = await cybersource.getSessionId(
+        'mockOrderId',
+        'mockOrgId',
+        'mockFingerPrintUrl',
+        'mockMerchantId',
+      );
       expect(
         log,
-        <Matcher>[isMethodCall('getPlatformName', arguments: null)],
+        <Matcher>[
+          isMethodCall(
+            'getSessionId',
+            arguments: <String, String>{
+              'orderId': 'mockOrderId',
+              'orgId': 'mockOrgId',
+              'fingerprintServerUrl': 'mockFingerPrintUrl',
+              'merchantId': 'mockMerchantId',
+            },
+          )
+        ],
       );
-      expect(name, equals(kPlatformName));
+      expect(name, equals(kSessionId));
     });
   });
 }

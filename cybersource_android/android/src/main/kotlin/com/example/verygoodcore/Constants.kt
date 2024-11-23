@@ -4,12 +4,6 @@ object Constants {
 
     interface MethodCalls {
 
-        interface GetPlatformName {
-            companion object {
-                const val NAME = "getPlatformName"
-            }
-        }
-
         interface GetSessionId {
             companion object {
                 const val NAME = "getSessionId"

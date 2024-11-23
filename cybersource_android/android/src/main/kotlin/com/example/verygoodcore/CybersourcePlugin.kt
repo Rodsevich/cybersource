@@ -10,7 +10,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 class CybersourcePlugin : FlutterPlugin, MethodCallHandler {
-    /// The MethodChannel that will the communication between Flutter and native Android
+    /// The MethodChannel that will handle the communication between Flutter and native Android
     /// This local reference serves to register the plugin with the Flutter Engine and unregister it
     /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
@@ -25,9 +25,6 @@ class CybersourcePlugin : FlutterPlugin, MethodCallHandler {
 
     override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
         when (call.method) {
-            Constants.MethodCalls.GetPlatformName.NAME -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
-            }
 
             Constants.MethodCalls.GetSessionId.NAME -> {
                 val orderId =
@@ -37,6 +34,11 @@ class CybersourcePlugin : FlutterPlugin, MethodCallHandler {
                     call.argument<String?>(Constants.MethodCalls.GetSessionId.Params.FINGERPRINT_SERVER_URL)
                 val merchantId =
                     call.argument<String?>(Constants.MethodCalls.GetSessionId.Params.MERCHANT_ID)
+
+                if (orderId == null || orgId == null || fingerprintServerUrl == null || merchantId == null) {
+                    throw IllegalArgumentException("Missing required arguments for getCybersourceSessionId")
+                }
+
                 val sessionId = getCybersourceSessionId(
                     orderId = orderId,
                     orgId = orgId,
@@ -57,14 +59,11 @@ class CybersourcePlugin : FlutterPlugin, MethodCallHandler {
     }
 
     private fun getCybersourceSessionId(
-        orderId: String?,
-        orgId: String?,
-        fingerprintServerUrl: String?,
-        merchantId: String?
+        orderId: String,
+        orgId: String,
+        fingerprintServerUrl: String,
+        merchantId: String
     ): String {
-        if (orderId == null || orgId == null || fingerprintServerUrl == null || merchantId == null) {
-            throw IllegalArgumentException("Missing required arguments for getCybersourceSessionId")
-        }
         val fraudApi = CybersourceAntiFraudApiImpl(
             context = context,
             orgId = orgId,

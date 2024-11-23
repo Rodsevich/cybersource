@@ -9,11 +9,6 @@ class MethodChannelCybersource extends CybersourcePlatform {
   final methodChannel = const MethodChannel('cybersource');
 
   @override
-  Future<String?> getPlatformName() {
-    return methodChannel.invokeMethod<String>('getPlatformName');
-  }
-
-  @override
   Future<String?> getSessionId(
     String orderId,
     String orgId,
