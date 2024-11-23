@@ -48,6 +48,10 @@ android {
         versionName flutterVersionName
     }
 
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.aar'])
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

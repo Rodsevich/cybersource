@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  const kPlatformName = 'platformName';
+  const kSessionId = 'mockSessionId';
 
   group('$MethodChannelCybersource', () {
     late MethodChannelCybersource methodChannelCybersource;
@@ -18,8 +18,8 @@ void main() {
         (methodCall) async {
           log.add(methodCall);
           switch (methodCall.method) {
-            case 'getPlatformName':
-              return kPlatformName;
+            case 'getSessionId':
+              return kSessionId;
             default:
               return null;
           }
@@ -29,13 +29,18 @@ void main() {
 
     tearDown(log.clear);
 
-    test('getPlatformName', () async {
-      final platformName = await methodChannelCybersource.getPlatformName();
+    test('getSessionId', () async {
+      final sessionId = await methodChannelCybersource.getSessionId(
+        'mockOrderId',
+        'mockOrgId',
+        'mockFingerPrintUrl',
+        'mockMerchantId',
+      );
       expect(
         log,
-        <Matcher>[isMethodCall('getPlatformName', arguments: null)],
+        <Matcher>[isMethodCall('getSessionId', arguments: null)],
       );
-      expect(platformName, equals(kPlatformName));
+      expect(sessionId, equals(kSessionId));
     });
   });
 }

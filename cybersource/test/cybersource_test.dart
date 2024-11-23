@@ -19,25 +19,51 @@ void main() {
       CybersourcePlatform.instance = cybersourcePlatform;
     });
 
-    group('getPlatformName', () {
-      test('returns correct name when platform implementation exists',
-          () async {
-        const platformName = '__test_platform__';
-        when(
-          () => cybersourcePlatform.getPlatformName(),
-        ).thenAnswer((_) async => platformName);
+    group('getSessionId', () {
+      const sessionId = '__sessionId__';
+      const orderId = '__orderId__';
+      const orgId = '__orgId__';
+      const fingerPrintUrl = '__fingerPrintUrl__';
+      const merchantId = '__merchantId__';
 
-        final actualPlatformName = await getPlatformName();
-        expect(actualPlatformName, equals(platformName));
+      test('returns correct sessionId', () async {
+        when(
+          () => cybersourcePlatform.getSessionId(
+            any(),
+            any(),
+            any(),
+            any(),
+          ),
+        ).thenAnswer((_) async => sessionId);
+
+        final actualPlatformName = await getSessionId(
+          orgId: orderId,
+          orderId: orgId,
+          fingerprintServerUrl: fingerPrintUrl,
+          merchantId: merchantId,
+        );
+        expect(actualPlatformName, equals(sessionId));
       });
 
-      test('throws exception when platform implementation is missing',
-          () async {
+      test('throws exception when session id is null', () async {
         when(
-          () => cybersourcePlatform.getPlatformName(),
+          () => cybersourcePlatform.getSessionId(
+            any(),
+            any(),
+            any(),
+            any(),
+          ),
         ).thenAnswer((_) async => null);
 
-        expect(getPlatformName, throwsException);
+        expect(
+          getSessionId(
+            orgId: orderId,
+            orderId: orgId,
+            fingerprintServerUrl: fingerPrintUrl,
+            merchantId: merchantId,
+          ),
+          throwsException,
+        );
       });
     });
   });
